@@ -29,6 +29,13 @@ var Review = mongoose.model('Review', {
     movieTitle: String
 });
 
+app.delete('/reviews/:id', function(req, res){
+    Review.findByIdAndRemove(req.params.id, function(err){
+        res.redirect('/')
+    })
+})
+
+
 app.put('/reviews/:id', function(req, res) {
     Review.findByIdAndUpdate(req.params.id, req.body, function(err, review) {
         res.redirect('/reviews/' + review._id);
@@ -51,7 +58,7 @@ app.get('/reviews/:id', function(req, res) {
 });
 
 //EDIT
-app.get('/review/:id/edit', function(req, res) {
+app.get('/reviews/:id/edit', function(req, res) {
     Review.findById(req.params.id, function(err, review) {
         res.render('reviews-edit', {review: review});
     })
